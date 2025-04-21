@@ -1,12 +1,11 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
+import { createServer } from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { createServer } from 'node:http';
 import { Server } from 'socket.io';
-import { servicesRouter } from './infrastructure/routes/services.js';
-import { initializeSocketEvents } from './socket-events.js';
-
-const PORT = 4000;
+import { initializeSocketEvents } from './socket-events';
+import { servicesRouter } from './infrastructure/routes/services';
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 
@@ -32,11 +31,14 @@ const io = new Server(server, {
 // Initialize WebSocket events
 initializeSocketEvents(io);
 
-// Pass `io` to routes
-app.use((req, res, next) => {
-  req.io = io;
-  next();
-});
+app.set('io', io);
+
+// // Pass `io` to routes
+// app.use((req: Request, res: Response, next) => {
+//   req.io = io;
+//   next();
+// });
+
 app.use('/services', servicesRouter);
 
 // Start the server
