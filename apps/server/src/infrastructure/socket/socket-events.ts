@@ -1,5 +1,5 @@
 import { DefaultEventsMap, Server, Socket } from 'socket.io';
-import { Service, Task } from './domain/entities';
+import { Service, Task } from '../../domain/entities';
 
 export interface CustomServer
   extends Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> {

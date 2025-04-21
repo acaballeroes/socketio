@@ -3,7 +3,7 @@ import { createServer } from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { Server } from 'socket.io';
-import { initializeSocketEvents } from './socket-events';
+import { initializeSocketEvents } from './infrastructure/socket/socket-events';
 import { servicesRouter } from './infrastructure/routes/services';
 const PORT = process.env.PORT || 4000;
 

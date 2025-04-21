@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { InMemoryServiceRepository } from '../data/services-repository';
 import { CreateService } from '../../application/use-cases/create-service';
 import { AddTaskToService } from '../../application/use-cases/add-task-service';
-import { CustomServer } from '../../socket-events';
+import { CustomServer } from '../socket/socket-events';
 
 const servicesRouter = Router();
 const serviceRepository = new InMemoryServiceRepository();
@@ -32,6 +32,19 @@ servicesRouter.get('/:id/tasks', (req: any, res: any) => {
   res.json(service.tasks);
 });
 
+// Create a new service
+servicesRouter.post('/', (req: Request, res: Response) => {
+  const { name, description } = req.body;
+  const newService = createService.execute(name, description);
+
+  // // Emit WebSocket event for new service
+  // req.io.onNewService(newService);
+  const io = req.app.get('io') as CustomServer;
+  io.onNewService?.(newService);
+
+  res.json(newService);
+});
+
 // Add a task to a service
 servicesRouter.post('/:id/tasks', (req: Request, res: Response) => {
   const { name, description, status } = req.body;
@@ -54,19 +67,6 @@ servicesRouter.post('/:id/tasks', (req: Request, res: Response) => {
       error instanceof Error ? error.message : 'An unknown error occurred';
     res.status(404).json({ message: errorMessage });
   }
-});
-
-// Create a new service
-servicesRouter.post('/', (req: Request, res: Response) => {
-  const { name, description } = req.body;
-  const newService = createService.execute(name, description);
-
-  // // Emit WebSocket event for new service
-  // req.io.onNewService(newService);
-  const io = req.app.get('io') as CustomServer;
-  io.onNewService?.(newService);
-
-  res.json(newService);
 });
 
 export { servicesRouter };
