@@ -52,4 +52,12 @@ export class InMemoryServiceRepository implements IServiceRepository {
     service.tasks.push(task);
     return task;
   }
+
+  getTasksByService(serviceId: string): Task[] {
+    const service = this.getServiceById(serviceId);
+    if (!service) {
+      throw new Error('Service not found');
+    }
+    return service.tasks;
+  }
 }

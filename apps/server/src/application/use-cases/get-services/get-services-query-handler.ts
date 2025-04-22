@@ -1,6 +1,6 @@
-import { Service } from "../../domain/entities";
-import { IServiceRepository } from "../../domain/repositories";
-import { IQueryHandler } from "../abstractions/query-handler";
+import { Service } from "../../../domain/entities";
+import { IServiceRepository } from "../../../domain/repositories";
+import { IQueryHandler } from "../../abstractions/query-handler";
 import { GetServicesQuery } from "./get-services-query";
 
 export class GetServicesQueryHandler implements IQueryHandler<GetServicesQuery, Service[]> {

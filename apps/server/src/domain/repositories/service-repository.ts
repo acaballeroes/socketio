@@ -8,4 +8,6 @@ export interface IServiceRepository {
   createService(service: Service): Service;
 
   addTaskToService(serviceId: string, task: Task): Task;
+
+  getTasksByService(serviceId: string): Task[];
 }

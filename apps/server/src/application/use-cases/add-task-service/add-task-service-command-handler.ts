@@ -1,6 +1,6 @@
-import { Task } from "../../domain/entities";
-import { IServiceRepository } from "../../domain/repositories";
-import { ICommandHandler } from "../abstractions/command-handler";
+import { Task } from "../../../domain/entities";
+import { IServiceRepository } from "../../../domain/repositories";
+import { ICommandHandler } from "../../abstractions/command-handler";
 import { v4 as uuidv4 } from "uuid";
 import { AddTaskServiceCommand } from "./add-task-service-command";
 

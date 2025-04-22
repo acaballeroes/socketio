@@ -1,6 +1,6 @@
-import { Service } from "../../domain/entities";
-import { IServiceRepository } from "../../domain/repositories";
-import { ICommandHandler } from "../abstractions/command-handler";
+import { Service } from "../../../domain/entities";
+import { IServiceRepository } from "../../../domain/repositories";
+import { ICommandHandler } from "../../abstractions/command-handler";
 import { CreateServiceCommand } from "./create-service-command";
 import { v4 as uuidv4 } from "uuid";
 

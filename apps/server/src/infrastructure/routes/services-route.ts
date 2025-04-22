@@ -4,28 +4,35 @@ import { CustomServer } from "../socket/socket-events";
 import {
   CreateServiceCommand,
   CreateServiceCommandHandler,
-} from "../../application/create-service";
-import { GetServicesQueryHandler } from "../../application/get-services/get-services-query-handler";
-import { GetServicesQuery } from "../../application/get-services/get-services-query";
-import { AddTaskServiceCommandHandler } from "../../application/add-task-service/add-task-service-command-handler";
-import { AddTaskServiceCommand } from "../../application/add-task-service/add-task-service-command";
-import { GetServiceByIdQuery, GetServiceByIdQueryHandler } from "../../application/get-service-by-id";
+} from "../../application/use-cases/create-service";
+import { GetServicesQueryHandler } from "../../application/use-cases/get-services/get-services-query-handler";
+import { GetServicesQuery } from "../../application/use-cases/get-services/get-services-query";
+import { AddTaskServiceCommandHandler } from "../../application/use-cases/add-task-service/add-task-service-command-handler";
+import { AddTaskServiceCommand } from "../../application/use-cases/add-task-service/add-task-service-command";
+import {
+  GetServiceByIdQuery,
+  GetServiceByIdQueryHandler,
+} from "../../application/use-cases/get-service-by-id";
+import { GetTasksByServiceQueryHandler } from "../../application/use-cases/get-tasks-by-service/get-tasks-by-service-query-handler";
+import { GetTasksByServiceQuery } from "../../application/use-cases/get-tasks-by-service";
 
 const servicesRouter = Router();
 const serviceRepository = new InMemoryServiceRepository();
 
-// Command Handlers
+//Handlers
 const createServiceCommandHandler = new CreateServiceCommandHandler(
   serviceRepository
 );
 const addTaskServiceCommandHandler = new AddTaskServiceCommandHandler(
   serviceRepository
 );
-
-// Query Handlers
 const getServicesQueryHandler = new GetServicesQueryHandler(serviceRepository);
-const getServicesByIdQueryHandler = new GetServiceByIdQueryHandler(serviceRepository);
-
+const getServicesByIdQueryHandler = new GetServiceByIdQueryHandler(
+  serviceRepository
+);
+const getTasksByServiceQueryHandler = new GetTasksByServiceQueryHandler(
+  serviceRepository
+);
 
 // Get all services
 servicesRouter.get("/", async (_, res: Response) => {
@@ -35,7 +42,7 @@ servicesRouter.get("/", async (_, res: Response) => {
 });
 
 // Get a service by ID
-servicesRouter.get("/:id", async(req: any, res: any) => {
+servicesRouter.get("/:id", async (req: any, res: any) => {
   console.log("Get service by ID", req.params.id);
   const query = new GetServiceByIdQuery(req.params.id);
   const service = await getServicesByIdQueryHandler.handle(query);
@@ -48,12 +55,14 @@ servicesRouter.get("/:id", async(req: any, res: any) => {
 });
 
 // Get all tasks of a service
-servicesRouter.get("/:id/tasks", (req: any, res: any) => {
-  const service = serviceRepository.getServiceById(req.params.id);
-  if (!service) {
+servicesRouter.get("/:id/tasks", async (req: any, res: any) => {
+  const query = new GetTasksByServiceQuery(req.params.id);
+  const tasks = await getTasksByServiceQueryHandler.handle(query);
+
+  if (!tasks) {
     return res.status(404).json({ message: "Service not found" });
   }
-  res.json(service.tasks);
+  res.json(tasks);
 });
 
 // Create a new service
@@ -66,6 +75,7 @@ servicesRouter.post("/", async (req: Request, res: Response) => {
   // Emit WebSocket event for new service
   const io = req.app.get("io") as CustomServer;
   io.onNewService?.(newService);
+  // io.emit("onNewService", newService);
 
   res.json(newService);
 });
@@ -74,6 +84,14 @@ servicesRouter.post("/", async (req: Request, res: Response) => {
 servicesRouter.post("/:id/tasks", async (req: Request, res: Response) => {
   const { name, description, status } = req.body;
 
+  /**
+   * Creates a new instance of the AddTaskServiceCommand with the provided parameters.
+   *
+   * @param req.params.id - The unique identifier for the task.
+   * @param name - The name of the task.
+   * @param description - A brief description of the task.
+   * @param status - The current status of the task.
+   */
   const command = new AddTaskServiceCommand(
     req.params.id,
     name,

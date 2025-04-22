@@ -1,1 +1,1 @@
-export * from './iservice-repository';
+export * from './service-repository';
