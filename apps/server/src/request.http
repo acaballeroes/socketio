@@ -1,3 +1,4 @@
+
 GET http://localhost:4000/services HTTP/1.1
 content-type: application/json
 
@@ -17,11 +18,11 @@ content-type: application/json
 }
 
 ### Add a task to a service
-POST http://localhost:4000/services/ea049fdc-24c6-4d6f-8e19-d0740b4061f8/tasks HTTP/1.1
+POST http://localhost:4000/services/f8f4e5dc-052c-4904-8501-070984bfb8f2/tasks HTTP/1.1
 content-type: application/json
 
 {
-  "name": "Task 2",
-  "description": "Description of Task 2",
+  "name": "Task 1",
+  "description": "Description of Task 1",
   "status": "pending"
 }

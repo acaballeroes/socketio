@@ -1,72 +1,88 @@
-import { Request, Response, Router } from 'express';
-import { InMemoryServiceRepository } from '../data/services-repository';
-import { CreateService } from '../../application/use-cases/create-service';
-import { AddTaskToService } from '../../application/use-cases/add-task-service';
-import { CustomServer } from '../socket/socket-events';
+import { Request, Response, Router } from "express";
+import { InMemoryServiceRepository } from "../data/services-repository";
+import { CustomServer } from "../socket/socket-events";
+import {
+  CreateServiceCommand,
+  CreateServiceCommandHandler,
+} from "../../application/create-service";
+import { GetServicesQueryHandler } from "../../application/get-services/get-services-query-handler";
+import { GetServicesQuery } from "../../application/get-services/get-services-query";
+import { AddTaskServiceCommandHandler } from "../../application/add-task-service/add-task-service-command-handler";
+import { AddTaskServiceCommand } from "../../application/add-task-service/add-task-service-command";
 
 const servicesRouter = Router();
 const serviceRepository = new InMemoryServiceRepository();
-const createService = new CreateService(serviceRepository);
-const addTaskToService = new AddTaskToService(serviceRepository);
+
+// Command Handlers
+const createServiceCommandHandler = new CreateServiceCommandHandler(
+  serviceRepository
+);
+const addTaskServiceCommandHandler = new AddTaskServiceCommandHandler(
+  serviceRepository
+);
+
+// Query Handlers
+const getServicesQueryHandler = new GetServicesQueryHandler(serviceRepository);
+
 
 // Get all services
-servicesRouter.get('/', (_, res: Response) => {
-  res.json(serviceRepository.getAllServices());
+servicesRouter.get("/", async (_, res: Response) => {
+  const query = new GetServicesQuery();
+  const services = await getServicesQueryHandler.handle(query);
+  res.json(services);
 });
 
 // Get a service by ID
-servicesRouter.get('/:id', (req: any, res: any) => {
+servicesRouter.get("/:id", (req: any, res: any) => {
   const service = serviceRepository.getServiceById(req.params.id);
   if (!service) {
-    return res.status(404).json({ message: 'Service not found' });
+    return res.status(404).json({ message: "Service not found" });
   }
   res.json(service);
 });
 
 // Get all tasks of a service
-servicesRouter.get('/:id/tasks', (req: any, res: any) => {
+servicesRouter.get("/:id/tasks", (req: any, res: any) => {
   const service = serviceRepository.getServiceById(req.params.id);
   if (!service) {
-    return res.status(404).json({ message: 'Service not found' });
+    return res.status(404).json({ message: "Service not found" });
   }
   res.json(service.tasks);
 });
 
 // Create a new service
-servicesRouter.post('/', (req: Request, res: Response) => {
+servicesRouter.post("/", async (req: Request, res: Response) => {
   const { name, description } = req.body;
-  const newService = createService.execute(name, description);
 
-  // // Emit WebSocket event for new service
-  // req.io.onNewService(newService);
-  const io = req.app.get('io') as CustomServer;
+  const command = new CreateServiceCommand(name, description);
+  const newService = await createServiceCommandHandler.handle(command);
+
+  // Emit WebSocket event for new service
+  const io = req.app.get("io") as CustomServer;
   io.onNewService?.(newService);
 
   res.json(newService);
 });
 
 // Add a task to a service
-servicesRouter.post('/:id/tasks', (req: Request, res: Response) => {
+servicesRouter.post("/:id/tasks", async (req: Request, res: Response) => {
   const { name, description, status } = req.body;
-  try {
-    const newTask = addTaskToService.execute(
-      req.params.id,
-      name,
-      description,
-      status
-    );
 
-    // // Emit WebSocket event for new task
-    // req.io.onNewTask(newTask, req.params.id);
-    const io = req.app.get('io') as CustomServer;
-    io.onNewTask?.(newTask, req.params.id);
+  const command = new AddTaskServiceCommand(
+    req.params.id,
+    name,
+    description,
+    status
+  );
 
-    res.json(newTask);
-  } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'An unknown error occurred';
-    res.status(404).json({ message: errorMessage });
-  }
+  const newTask = await addTaskServiceCommandHandler.handle(command);
+
+  // // Emit WebSocket event for new task
+  // req.io.onNewTask(newTask, req.params.id);
+  const io = req.app.get("io") as CustomServer;
+  io.onNewTask?.(newTask, req.params.id);
+
+  res.json(newTask);
 });
 
 export { servicesRouter };

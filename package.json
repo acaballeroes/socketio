@@ -14,6 +14,9 @@
     "apps/server"
   ],
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "eslint": "^9.25.1",
+    "prettier": "^3.5.3",
     "turbo": "^2.5.0"
   },
   "packageManager": "npm@10.8.2"
