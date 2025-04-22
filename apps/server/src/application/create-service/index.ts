@@ -1,2 +1,2 @@
 export * from './create-service-command';
-export * from './create-service-handler';
+export * from './create-service-command-handler';

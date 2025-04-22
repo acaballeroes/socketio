@@ -9,6 +9,7 @@ import { GetServicesQueryHandler } from "../../application/get-services/get-serv
 import { GetServicesQuery } from "../../application/get-services/get-services-query";
 import { AddTaskServiceCommandHandler } from "../../application/add-task-service/add-task-service-command-handler";
 import { AddTaskServiceCommand } from "../../application/add-task-service/add-task-service-command";
+import { GetServiceByIdQuery, GetServiceByIdQueryHandler } from "../../application/get-service-by-id";
 
 const servicesRouter = Router();
 const serviceRepository = new InMemoryServiceRepository();
@@ -23,6 +24,7 @@ const addTaskServiceCommandHandler = new AddTaskServiceCommandHandler(
 
 // Query Handlers
 const getServicesQueryHandler = new GetServicesQueryHandler(serviceRepository);
+const getServicesByIdQueryHandler = new GetServiceByIdQueryHandler(serviceRepository);
 
 
 // Get all services
@@ -33,11 +35,15 @@ servicesRouter.get("/", async (_, res: Response) => {
 });
 
 // Get a service by ID
-servicesRouter.get("/:id", (req: any, res: any) => {
-  const service = serviceRepository.getServiceById(req.params.id);
+servicesRouter.get("/:id", async(req: any, res: any) => {
+  console.log("Get service by ID", req.params.id);
+  const query = new GetServiceByIdQuery(req.params.id);
+  const service = await getServicesByIdQueryHandler.handle(query);
+
   if (!service) {
     return res.status(404).json({ message: "Service not found" });
   }
+
   res.json(service);
 });
 

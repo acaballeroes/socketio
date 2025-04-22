@@ -2,12 +2,11 @@
 GET http://localhost:4000/services HTTP/1.1
 content-type: application/json
 
-###
-
-GET http://localhost:4000/services/1a2b3c4d-0003-0003-0003-000000000001 HTTP/1.1
+### Get Service by service ID
+GET http://localhost:4000/services/25db8546-b2fb-45b6-9704-3002421450ed HTTP/1.1
 content-type: application/json
 
-###
+### Add a new service
 
 POST http://localhost:4000/services HTTP/1.1
 content-type: application/json
@@ -18,7 +17,7 @@ content-type: application/json
 }
 
 ### Add a task to a service
-POST http://localhost:4000/services/f8f4e5dc-052c-4904-8501-070984bfb8f2/tasks HTTP/1.1
+POST http://localhost:4000/services/25db8546-b2fb-45b6-9704-3002421450ed/tasks HTTP/1.1
 content-type: application/json
 
 {
