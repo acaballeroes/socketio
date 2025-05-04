@@ -4,7 +4,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { Server } from 'socket.io';
 import { initializeSocketEvents } from './infrastructure/socket/socket-events';
-import { servicesRouter } from './infrastructure/routes/services-route';
+import {servicesRouter} from "./infrastructure/routes/services-router";
 const PORT = process.env.PORT || 4000;
 
 const app = express();
