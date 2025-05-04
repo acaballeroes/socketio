@@ -1,19 +1,19 @@
 import { Request, Response, Router } from "express";
-import { InMemoryServiceRepository } from "../data/services-repository";
+import { InMemoryServiceRepository } from "../repositories";
 import { CustomServer } from "../socket/socket-events";
 import {
   CreateServiceCommand,
   CreateServiceCommandHandler,
 } from "../../application/use-cases/create-service";
-import { GetServicesQueryHandler } from "../../application/use-cases/get-services/get-services-query-handler";
-import { GetServicesQuery } from "../../application/use-cases/get-services/get-services-query";
-import { AddTaskServiceCommandHandler } from "../../application/use-cases/add-task-service/add-task-service-command-handler";
-import { AddTaskServiceCommand } from "../../application/use-cases/add-task-service/add-task-service-command";
+import { GetServicesQueryHandler } from "../../application/use-cases/get-services";
+import { GetServicesQuery } from "../../application/use-cases/get-services";
+import { AddTaskServiceCommandHandler } from "../../application/use-cases/add-task-service";
+import { AddTaskServiceCommand } from "../../application/use-cases/add-task-service";
 import {
   GetServiceByIdQuery,
   GetServiceByIdQueryHandler,
 } from "../../application/use-cases/get-service-by-id";
-import { GetTasksByServiceQueryHandler } from "../../application/use-cases/get-tasks-by-service/get-tasks-by-service-query-handler";
+import { GetTasksByServiceQueryHandler } from "../../application/use-cases/get-tasks-by-service";
 import { GetTasksByServiceQuery } from "../../application/use-cases/get-tasks-by-service";
 
 const servicesRouter = Router();

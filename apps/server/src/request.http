@@ -17,7 +17,7 @@ content-type: application/json
 }
 
 ### Add a task to a service
-POST http://localhost:4000/services/cb270184-87ec-4727-9b0c-0240d04cc531/tasks HTTP/1.1
+POST http://localhost:4000/services/a2acba64-cb55-4b7d-a579-f6fb42c0c741/tasks HTTP/1.1
 content-type: application/json
 
 {

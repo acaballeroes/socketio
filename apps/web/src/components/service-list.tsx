@@ -85,20 +85,22 @@ const ServiceList: React.FC = () => {
     <div>
       <h1>Service List</h1>
       {error && <p className='text-red-500'>{error}</p>}
-      <div className='grid grid-cols-4 gap-4 font-bold'>
-        <div>ID</div>
-        <div>NAME</div>
-        <div>DESCRIPTION</div>
-        <div># TASKS</div>
-      </div>
-      {services.map((service) => (
-        <div className='grid grid-cols-4 gap-4' key={service.id}>
-          <div>{service.id}</div>
-          <div>{service.name}</div>
-          <div>{service.description}</div>
-          <div>{service.tasks.length}</div>
+      <div className="p-8">
+        <div className='grid grid-cols-4 gap-4 font-bold'>
+          <div>ID</div>
+          <div>NAME</div>
+          <div>DESCRIPTION</div>
+          <div># TASKS</div>
         </div>
-      ))}
+        {services.map((service) => (
+          <div className='grid grid-cols-4 gap-4' key={service.id}>
+            <div>{service.id}</div>
+            <div>{service.name}</div>
+            <div>{service.description}</div>
+            <div>{service.tasks.length}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
