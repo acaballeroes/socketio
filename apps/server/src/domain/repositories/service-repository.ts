@@ -1,4 +1,4 @@
-import { Service, Task } from '../entities';
+import { Service, Task } from "../entities";
 
 export interface IServiceRepository {
   getAllServices(): Service[];

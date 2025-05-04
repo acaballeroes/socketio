@@ -48,7 +48,6 @@ const ServiceList: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to load services
   const loadServices = async () => {
     try {
       const data = await fetchServices();
@@ -62,13 +61,11 @@ const ServiceList: React.FC = () => {
   useEffect(() => {
     loadServices();
 
-    // Listen to the `newService` event
     socket.on('newService', async () => {
       console.log('New service received');
       await loadServices();
     });
 
-    // Listen to the `newTask` event
     socket.on('newTask', async ({ task, serviceId }) => {
       console.log('New task received:', task, 'for service:', serviceId);
       await loadServices();

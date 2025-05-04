@@ -1,13 +1,17 @@
 import { Task } from "../../../domain/entities";
 import { IServiceRepository } from "../../../domain/repositories";
-import { ICommandHandler } from "../../abstractions/command-handler";
+import { ICommandHandler } from "../../abstractions";
 import { v4 as uuidv4 } from "uuid";
 import { AddTaskServiceCommand } from "./add-task-service-command";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export class AddTaskServiceCommandHandler
   implements ICommandHandler<AddTaskServiceCommand, Task>
 {
-  constructor(private serviceRepository: IServiceRepository) {}
+  constructor(
+    @inject("ServiceRepository") private serviceRepository: IServiceRepository
+  ) {}
 
   handle(command: AddTaskServiceCommand): Promise<Task> {
     const newTask: Task = {
@@ -17,6 +21,8 @@ export class AddTaskServiceCommandHandler
       status: command.status,
     };
 
-    return Promise.resolve(this.serviceRepository.addTaskToService(command.serviceId, newTask));
+    return Promise.resolve(
+      this.serviceRepository.addTaskToService(command.serviceId, newTask)
+    );
   }
 }
