@@ -1,5 +1,6 @@
 import { Service, Task } from "../../domain/entities";
 import { IServiceRepository } from "../../domain/repositories";
+import { publishTaskCreated } from "../messaging/task-created-publisher";
 
 const services: Service[] = [
   {
@@ -41,12 +42,16 @@ export class InMemoryServiceRepository implements IServiceRepository {
     return service;
   }
 
-  addTaskToService(serviceId: string, task: Task): Task {
+  async addTaskToService(serviceId: string, task: Task): Promise<Task> {
     const service = this.getServiceById(serviceId);
     if (!service) {
       throw new Error("Service not found");
     }
     service.tasks.push(task);
+
+    // Publish task created event
+    await publishTaskCreated(task);
+
     return task;
   }
 

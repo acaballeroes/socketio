@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 
 interface Task {
   id: string;
@@ -83,20 +84,26 @@ const ServiceList: React.FC = () => {
       <h1>Service List</h1>
       {error && <p className='text-red-500'>{error}</p>}
       <div className="p-8">
-        <div className='grid grid-cols-4 gap-4 font-bold'>
-          <div>ID</div>
-          <div>NAME</div>
-          <div>DESCRIPTION</div>
-          <div># TASKS</div>
-        </div>
-        {services.map((service) => (
-          <div className='grid grid-cols-4 gap-4' key={service.id}>
-            <div>{service.id}</div>
-            <div>{service.name}</div>
-            <div>{service.description}</div>
-            <div>{service.tasks.length}</div>
-          </div>
-        ))}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>NAME</TableHead>
+              <TableHead>DESCRIPTION</TableHead>
+              <TableHead># TASKS</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {services.map((service) => (
+              <TableRow key={service.id}>
+                <TableCell>{service.id}</TableCell>
+                <TableCell>{service.name}</TableCell>
+                <TableCell>{service.description}</TableCell>
+                <TableCell>{service.tasks.length}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

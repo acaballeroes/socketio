@@ -19,7 +19,6 @@ export class CreateServiceController {
     const command = new CreateServiceCommand(name, description);
     const newService = await this.createServiceCommandHandler.handle(command);
 
-    // Emit WebSocket event for new service
     const io = req.app.get("io") as CustomServer;
     io.onNewService?.(newService);
 
