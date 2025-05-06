@@ -24,7 +24,6 @@ export class AddTaskServiceController {
     );
     const newTask = await this.addTaskServiceCommandHandler.handle(command);
 
-    // Emit WebSocket event for new task
     const io = req.app.get("io") as CustomServer;
     io.onNewTask?.(newTask, req.params.id);
 

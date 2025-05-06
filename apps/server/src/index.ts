@@ -39,7 +39,7 @@ app.use("/tasks", tasksRouter);
 // Function to initialize RabbitMQ listener
 const initializeRabbitMQ = async () => {
   try {
-    await startTaskUpdatedListener();
+    await startTaskUpdatedListener(io);
     console.log("RabbitMQ listener started successfully.");
   } catch (error) {
     console.error("Failed to start RabbitMQ listener:", error);

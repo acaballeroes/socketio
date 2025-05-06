@@ -2,10 +2,11 @@ import amqp from "amqplib";
 import { container } from "../../../container";
 import { UpdateStatusTaskCommand } from "../../../application/use-cases/tasks/update-task-status/update-task-status-command";
 import { UpdateStatusTaskCommandHandler } from "../../../application/use-cases/tasks/update-task-status/update-task-status-command-handler";
+import { CustomServer } from "../../messaging/socket/socket-events";
 
 const QUEUE_NAME = "task.updated.queue";
 
-export const startTaskUpdatedListener = async () => {
+export const startTaskUpdatedListener = async (io: CustomServer) => {
   try {
     const connection = await amqp.connect("amqp://localhost");
     const channel = await connection.createChannel();
@@ -31,6 +32,9 @@ export const startTaskUpdatedListener = async () => {
             await updateStatusTaskCommandHandler.handle(command);
 
           console.log(`Task updated successfully:`, updatedTask);
+
+          // Emit WebSocket event
+          io.onUpdateTask?.(updatedTask, id);
         } catch (error) {
           if (error instanceof Error) {
             console.error(`Failed to update task:`, error.message);
