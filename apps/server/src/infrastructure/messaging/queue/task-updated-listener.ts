@@ -6,7 +6,7 @@ import { CustomServer } from "../../messaging/socket/socket-events";
 
 const QUEUE_NAME = "task.updated.queue";
 
-export const startTaskUpdatedListener = async (io: CustomServer) => {
+export const taskUpdatedListener = async (io: CustomServer) => {
   try {
     const connection = await amqp.connect("amqp://localhost");
     const channel = await connection.createChannel();

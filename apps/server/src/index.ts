@@ -6,7 +6,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { initializeSocketEvents } from "./infrastructure/messaging/socket/socket-events";
 import { servicesRouter } from "./infrastructure/routes/services-router";
-import { startTaskUpdatedListener } from "./infrastructure/messaging/queue/task-updated-listener";
+import { taskUpdatedListener } from "./infrastructure/messaging/queue/task-updated-listener";
 import { tasksRouter } from "./infrastructure/routes/tasks-router";
 
 const PORT = process.env.PORT || 4000;
@@ -39,7 +39,7 @@ app.use("/tasks", tasksRouter);
 // Function to initialize RabbitMQ listener
 const initializeRabbitMQ = async () => {
   try {
-    await startTaskUpdatedListener(io);
+    await taskUpdatedListener(io);
     console.log("RabbitMQ listener started successfully.");
   } catch (error) {
     console.error("Failed to start RabbitMQ listener:", error);
