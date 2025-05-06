@@ -3,7 +3,7 @@ import { inject, injectable } from "tsyringe";
 import {
   GetServiceByIdQuery,
   GetServiceByIdQueryHandler,
-} from "../../../application/use-cases/get-service-by-id";
+} from "../../../application/use-cases/services/get-service-by-id";
 
 @injectable()
 export class GetServiceByIdController {

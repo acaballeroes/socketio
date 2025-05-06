@@ -1,5 +1,5 @@
 import amqp from "amqplib";
-import { Task } from "../../domain/entities";
+import { Task } from "../../../domain/entities";
 
 const QUEUE_NAME = "tasks.created.queue";
 

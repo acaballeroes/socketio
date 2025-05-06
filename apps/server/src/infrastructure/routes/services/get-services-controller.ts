@@ -3,10 +3,10 @@ import { inject, injectable } from "tsyringe";
 import {
   GetServicesQuery,
   GetServicesQueryHandler,
-} from "../../../application/use-cases/get-services";
+} from "../../../application/use-cases/services/get-services";
 
 @injectable()
-export class GetAllServiceController {
+export class GetServiceController {
   constructor(
     @inject("GetServicesQueryHandler")
     private getServicesQueryHandler: GetServicesQueryHandler

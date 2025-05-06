@@ -3,7 +3,7 @@ import { container } from "../../container";
 import {
   AddTaskServiceController,
   CreateServiceController,
-  GetAllServiceController,
+  GetServiceController,
   GetServiceByIdController,
   GetTasksByServiceController,
 } from "./services";
@@ -11,7 +11,7 @@ import {
 const servicesRouter = Router();
 
 const createServiceController = container.resolve(CreateServiceController);
-const getAllServiceController = container.resolve(GetAllServiceController);
+const getAllServiceController = container.resolve(GetServiceController);
 const addTaskServiceController = container.resolve(AddTaskServiceController);
 const getServiceByIdController = container.resolve(GetServiceByIdController);
 const getTasksByServiceController = container.resolve(

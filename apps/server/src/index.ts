@@ -4,9 +4,10 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { initializeSocketEvents } from "./infrastructure/socket/socket-events";
+import { initializeSocketEvents } from "./infrastructure/messaging/socket/socket-events";
 import { servicesRouter } from "./infrastructure/routes/services-router";
-import { startTaskUpdatedListener } from "./infrastructure/messaging/task-updated-listener";
+import { startTaskUpdatedListener } from "./infrastructure/messaging/queue/task-updated-listener";
+import { tasksRouter } from "./infrastructure/routes/tasks-router";
 
 const PORT = process.env.PORT || 4000;
 
@@ -31,7 +32,9 @@ const io = new Server(server, {
 
 initializeSocketEvents(io);
 app.set("io", io);
+
 app.use("/services", servicesRouter);
+app.use("/tasks", tasksRouter);
 
 // Function to initialize RabbitMQ listener
 const initializeRabbitMQ = async () => {

@@ -3,7 +3,7 @@ import { inject, injectable } from "tsyringe";
 import {
   GetTasksByServiceQuery,
   GetTasksByServiceQueryHandler,
-} from "../../../application/use-cases/get-tasks-by-service";
+} from "../../../application/use-cases/services/get-tasks-by-service";
 
 @injectable()
 export class GetTasksByServiceController {

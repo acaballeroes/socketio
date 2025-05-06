@@ -1,7 +1,7 @@
-import { Task } from "../../../domain/entities";
-import { IServiceRepository } from "../../../domain/repositories";
+import { Task } from "../../../../domain/entities";
+import { IServiceRepository } from "../../../../domain/repositories";
 import { GetTasksByServiceQuery } from "./get-tasks-by-service-query";
-import { IQueryHandler } from "../../abstractions";
+import { IQueryHandler } from "../../../abstractions";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

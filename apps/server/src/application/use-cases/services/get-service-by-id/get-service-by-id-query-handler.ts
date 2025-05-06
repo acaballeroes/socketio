@@ -1,7 +1,7 @@
-import { Service } from "../../../domain/entities";
-import { IServiceRepository } from "../../../domain/repositories";
+import { Service } from "../../../../domain/entities";
+import { IServiceRepository } from "../../../../domain/repositories";
 import { GetServiceByIdQuery } from "./get-service-by-id-query";
-import { IQueryHandler } from "../../abstractions";
+import { IQueryHandler } from "../../../abstractions";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

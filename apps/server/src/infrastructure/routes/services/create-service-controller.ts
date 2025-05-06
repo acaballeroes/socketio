@@ -3,8 +3,8 @@ import { inject, injectable } from "tsyringe";
 import {
   CreateServiceCommand,
   CreateServiceCommandHandler,
-} from "../../../application/use-cases/create-service";
-import { CustomServer } from "../../socket/socket-events";
+} from "../../../application/use-cases/services/create-service";
+import { CustomServer } from "../../messaging/socket/socket-events";
 
 @injectable()
 export class CreateServiceController {

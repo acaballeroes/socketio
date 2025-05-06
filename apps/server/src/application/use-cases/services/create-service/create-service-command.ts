@@ -1,5 +1,5 @@
-import { Service } from "../../../domain/entities";
-import { ICommand } from "../../abstractions";
+import { Service } from "../../../../domain/entities";
+import { ICommand } from "../../../abstractions";
 
 export class CreateServiceCommand implements ICommand<Service> {
   constructor(

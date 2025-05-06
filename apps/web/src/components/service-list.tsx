@@ -72,6 +72,11 @@ const ServiceList: React.FC = () => {
       await loadServices();
     });
 
+    socket.on('updateTask', async ({ task, serviceId }) => {
+      console.log('Update task received:', task, 'for service:', serviceId);
+      await loadServices();
+    });
+
     // Clean up listeners when the component unmounts
     return () => {
       socket.off('newService');
@@ -90,7 +95,8 @@ const ServiceList: React.FC = () => {
               <TableHead>ID</TableHead>
               <TableHead>NAME</TableHead>
               <TableHead>DESCRIPTION</TableHead>
-              <TableHead># TASKS</TableHead>
+              <TableHead>TASKS</TableHead>
+              <TableHead>TASKS</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -99,6 +105,7 @@ const ServiceList: React.FC = () => {
                 <TableCell>{service.id}</TableCell>
                 <TableCell>{service.name}</TableCell>
                 <TableCell>{service.description}</TableCell>
+                <TableCell><pre>{JSON.stringify(service.tasks, null, 2)}</pre></TableCell>
                 <TableCell>{service.tasks.length}</TableCell>
               </TableRow>
             ))}

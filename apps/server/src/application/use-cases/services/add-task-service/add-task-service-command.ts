@@ -1,5 +1,5 @@
-import { Task } from "../../../domain/entities";
-import { ICommand } from "../../abstractions";
+import { Task } from "../../../../domain/entities";
+import { ICommand } from "../../../abstractions";
 
 export class AddTaskServiceCommand implements ICommand<Task> {
   constructor(

@@ -25,3 +25,19 @@ content-type: application/json
   "description": "Description of Task 1 of the service cb270184-87ec-4727-9b0c-0240d04cc531",
   "status": "pending"
 }
+
+
+### Handle task status
+PATCH http://localhost:4000/tasks/1d3392b7-816d-44df-9dd2-1e45c621670d/status HTTP/1.1
+content-type: application/json
+
+{
+  "status": "completed"
+}
+
+
+
+# {
+#   "id": "1d3392b7-816d-44df-9dd2-1e45c621670d",
+#   "status": "completed"
+# }

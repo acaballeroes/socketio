@@ -3,8 +3,8 @@ import { inject, injectable } from "tsyringe";
 import {
   AddTaskServiceCommand,
   AddTaskServiceCommandHandler,
-} from "../../../application/use-cases/add-task-service";
-import { CustomServer } from "../../socket/socket-events";
+} from "../../../application/use-cases/services/add-task-service";
+import { CustomServer } from "../../messaging/socket/socket-events";
 
 @injectable()
 export class AddTaskServiceController {
