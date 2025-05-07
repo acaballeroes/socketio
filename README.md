@@ -1,19 +1,14 @@
 # PILOT Project
 
-This project is a real-time application built using Socket.IO for WebSocket communication and RabbitMQ for message brokering. It follows the principles of **Clean Architecture** to ensure scalability, maintainability, and testability.
+This project is a simple demonstration of how to implement the **CQRS pattern**, real-time communication using **Socket.IO**, and message queues with **RabbitMQ**. The purpose of this project is purely educational and does not aim to address or recommend any specific architecture.
 
 ---
 
-## What is Clean Architecture?
+## Project Architecture
+
+While the primary goal of this project is to demonstrate CQRS, real-time communication, and message queues, it also loosely follows principles of **Clean Architecture** to organize the code. This approach ensures separation of concerns and makes the project easier to understand and extend. However, the implementation is simplified and does not strictly adhere to all Clean Architecture guidelines.
 
 Clean Architecture, introduced by Robert C. Martin (Uncle Bob), is a software design philosophy that emphasizes separation of concerns and independence of frameworks, databases, and user interfaces. The architecture is structured in concentric layers, where the innermost layers are the most abstract and the outermost layers are the most concrete.
-
-### Key Principles of Clean Architecture:
-1. **Independence**: The business rules are independent of frameworks, databases, or external systems.
-2. **Testability**: The architecture makes it easy to test the core business logic without relying on external dependencies.
-3. **Separation of Concerns**: Each layer has a specific responsibility, reducing coupling and increasing cohesion.
-
-### Clean Architecture Diagram
 
 ![Clean Architecture Diagram](https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg)  
 *Image credit: Robert C. Martin (Uncle Bob) - [The Clean Code Blog](https://blog.cleancoder.com/)*
@@ -23,6 +18,8 @@ Clean Architecture, introduced by Robert C. Martin (Uncle Bob), is a software de
 - **Application Business rules (Use Cases)**: Contain the application-specific business rules and orchestrate the flow of data to and from entities.
 - **Interface Adapters (Controllers, Gateways, presenters)**: Convert data from the format most convenient for use cases and entities to the format required by external systems.
 - **Frameworks & Drivers ()**: Represent the outermost layer, including frameworks, databases, and external APIs.
+
+*You can learn more about Clean Architecture at [The Clean Code Blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).*
 
 
 ###
