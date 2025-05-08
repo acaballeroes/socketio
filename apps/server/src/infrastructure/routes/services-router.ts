@@ -6,7 +6,7 @@ import {
   GetServiceController,
   GetServiceByIdController,
   GetTasksByServiceController,
-} from "./services";
+} from "../controllers/services";
 
 const servicesRouter = Router();
 

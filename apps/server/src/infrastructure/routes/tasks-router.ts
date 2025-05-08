@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { container } from "../../container";
-import { UpdateStatusTaskController } from "./tasks";
+import { UpdateStatusTaskController } from "../controllers/tasks";
 
 const tasksRouter = Router();
 
